@@ -1,7 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 
 #include "board.h"
+
+void imprimir_board(Board b) {
+	for (int i = 0; i < LADOS; i++) {
+		for (int j = 0; j < LADOS; j++) {
+			printf("%4d", b[i][j].valor);
+		}
+		printf("\n");
+	}
+}
 
 int main(void) {
 	Board b;
@@ -18,7 +28,7 @@ int main(void) {
 		char cmd;
 		// Lê comando
 		printf("\nFaça uma jogada. Use WASD. E para sair: ");
-		cmd = getche();
+		cmd = _getche();
 
 		// Processa comando
 		switch (cmd) {

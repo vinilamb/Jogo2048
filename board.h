@@ -12,7 +12,6 @@ struct posicao {
 };
 
 // Valida o valor de uma posicao
-// 
 int Validar_Posicao(struct posicao pos);
 
 #define LADOS 4
@@ -24,24 +23,14 @@ typedef struct square Board[LADOS][LADOS];
 // Atribui o valor a todas as casas do tabuleiro
 void Fill_Board(Board b, int value);
 
-// Imprime o tabuleiro no console
-void imprimir_board(Board b);
-
 // Encontra índices da casa na matriz bidimensional
 // Retorno 0 = Peça não está no tabuleiro
 int Posicao_Casa(Board b, struct square* casa, struct posicao* pos);
 
-// spawn de números novos
-// usar rand() para ver as chances de spawnar 2 ou 4
-// usa a função abaixo para encontrar todas as casas vazias
-// usar o rand() para escolher o índice no vetor
-// atribuir valor a casa vazia pelo pointer
+// Spawna um novo 2 (com 90% de chance) ou 4 (10% das vezes) no tabuleiro, apenas se houver espaço.
 void Spawnar_Numero(Board b);
 
-// funções para as jogadas
-// algoritmo para uma jogada:
-// 1. começa em um dos cantos
-// 2. usa as funções para mover as peças
+// Processa uma jogada sobre o tabuleiro, na direção especificada.
 void Jogada_Cima(Board b);
 void Jogada_Baixo(Board b);
 void Jogada_Esquerda(Board b);

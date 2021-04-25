@@ -1,6 +1,7 @@
 #include "board.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 // preenche o buffer com casas vazias e retorna o total de vazias
 void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias);
@@ -42,7 +43,7 @@ void Spawnar_Numero(Board b) {
 	}
 }
 
-// Atribui o valor a todas as casas do tabuleiro
+// Atribui o valor especificado à todas as casas do tabuleiro;
 void Fill_Board(Board b, int value) {
 	int i, j;
 	for (i = 0; i < LADOS; i++) {
@@ -52,12 +53,23 @@ void Fill_Board(Board b, int value) {
 	}
 }
 
-void imprimir_board(Board b) {
-	for (int i = 0; i < LADOS; i++) {
-		for (int j = 0; j < LADOS; j++) {
-			printf("%4d", b[i][j].valor);
+// ----------------------------------
+// Funções para Processar as Jogadas
+// ----------------------------------
+
+void Jogada_Esquerda(Board b) {
+	for (int col = 1; col < LADOS; col++) {
+		for (int linha = 0; linha < LADOS; linha++) {
+			Mover_Esquerda(b, &b[linha][col]);
 		}
-		printf("\n");
+	}
+}
+
+void Jogada_Direita(Board b) {
+	for (int col = 3; col >= 0; col--) {
+		for (int linha = 0; linha < LADOS; linha++) {
+			Mover_Direita(b, &b[linha][col]);
+		}
 	}
 }
 
@@ -66,6 +78,58 @@ void Jogada_Cima(Board b) {
 		for (int col = 0; col < LADOS; col++) {
 			Mover_Cima(b, &b[linha][col]);
 		}
+	}
+}
+
+void Jogada_Baixo(Board b) {
+	for (int linha = 2; linha >= 0; linha--) {
+		for (int col = 0; col < LADOS; col++) {
+			Mover_Baixo(b, &b[linha][col]);
+		}
+	}
+}
+
+// ------------------------------------------
+// Funções do Movimento de Peças Individuais
+// ------------------------------------------
+
+void Mover_Esquerda(Board b, struct square* casa_ptr) {
+	struct square* casa_esq = Casa_Esquerda(b, casa_ptr);
+
+	if (casa_esq == NULL) {
+		return;
+	}
+	else if (casa_esq->valor == 0) {
+		casa_esq->valor = casa_ptr->valor;
+		casa_ptr->valor = 0;
+		Mover_Esquerda(b, casa_esq);
+	}
+	else if (casa_esq->valor == casa_ptr->valor) {
+		casa_esq->valor += casa_ptr->valor;
+		casa_ptr->valor = 0;
+	}
+	else {
+		return;
+	}
+}
+
+void Mover_Direita(Board b, struct square* casa_ptr) {
+	struct square* vizinho = Casa_Direita(b, casa_ptr);
+
+	if (vizinho == NULL) {
+		return;
+	}
+	else if (vizinho->valor == 0) {
+		vizinho->valor = casa_ptr->valor;
+		casa_ptr->valor = 0;
+		Mover_Direita(b, vizinho);
+	}
+	else if (vizinho->valor == casa_ptr->valor) {
+		vizinho->valor += casa_ptr->valor;
+		casa_ptr->valor = 0;
+	}
+	else {
+		return;
 	}
 }
 
@@ -89,14 +153,6 @@ void Mover_Cima(Board b, struct square* casa_ptr) {
 	}
 }
 
-void Jogada_Baixo(Board b) {
-	for (int linha = 2; linha >= 0; linha--) {
-		for (int col = 0; col < LADOS; col++) {
-			Mover_Baixo(b, &b[linha][col]);
-		}
-	}
-}
-
 void Mover_Baixo(Board b, struct square* casa_ptr) {
 	struct square* vizinho = Casa_Baixo(b, casa_ptr);
 
@@ -116,6 +172,10 @@ void Mover_Baixo(Board b, struct square* casa_ptr) {
 		return;
 	}
 }
+
+// -----------------------------------------------------------------
+//	Funções para encontrar casas em posição relativa a outras casas
+// -----------------------------------------------------------------
 
 struct square* Casa_Esquerda(Board b, struct square* casa_ptr) {
 	struct posicao pos;
@@ -147,62 +207,6 @@ struct square* Casa_Baixo(Board b, struct square* casa_ptr) {
 	pos.linha = pos.linha + 1;
 	if (!(pos.linha < LADOS)) return NULL;
 	return &b[pos.linha][pos.coluna];
-}
-
-void Mover_Direita(Board b, struct square* casa_ptr) {
-	struct square* vizinho = Casa_Direita(b, casa_ptr);
-
-	if (vizinho == NULL) {
-		return;
-	}
-	else if (vizinho->valor == 0) {
-		vizinho->valor = casa_ptr->valor;
-		casa_ptr->valor = 0;
-		Mover_Direita(b, vizinho);
-	}
-	else if (vizinho->valor == casa_ptr->valor) {
-		vizinho->valor += casa_ptr->valor;
-		casa_ptr->valor = 0;
-	}
-	else {
-		return;
-	}
-}
-
-void Jogada_Direita(Board b) {
-	for (int col = 3; col >= 0; col--) {
-		for (int linha = 0; linha < LADOS; linha++) {
-			Mover_Direita(b, &b[linha][col]);
-		}
-	}
-}
-
-void Jogada_Esquerda(Board b) {
-	for (int col = 1; col < LADOS; col++) {
-		for (int linha = 0; linha < LADOS; linha++) {
-			Mover_Esquerda(b, &b[linha][col]);
-		}
-	}
-}
-
-void Mover_Esquerda(Board b, struct square* casa_ptr) {
-	struct square* casa_esq = Casa_Esquerda(b, casa_ptr);
-
-	if (casa_esq == NULL) {
-		return;
-	}
-	else if (casa_esq->valor == 0) {
-		casa_esq->valor = casa_ptr->valor;
-		casa_ptr->valor = 0;
-		Mover_Esquerda(b, casa_esq);
-	}
-	else if (casa_esq->valor == casa_ptr->valor) {
-		casa_esq->valor += casa_ptr->valor;
-		casa_ptr->valor = 0;
-	}
-	else {
-		return;
-	}
 }
 
 void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias) {
