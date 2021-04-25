@@ -2,16 +2,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 // preenche o buffer com casas vazias e retorna o total de vazias
 void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias);
 
-int Validar_Posicao(struct posicao pos) {
-	return pos.linha < LADOS&& pos.coluna < LADOS;
-}
-
 // Encontra índices da casa na matriz bidimensional
-// Retorno 0 = Peça não está no tabuleiro
+// Peça deve estar no tabuleiro.
 int Posicao_Casa(Board b, struct square* casa, struct posicao* pos) {
 	for (int i = 0; i < LADOS; i++) {
 		for (int j = 0; j < LADOS; j++) {
@@ -22,7 +19,7 @@ int Posicao_Casa(Board b, struct square* casa, struct posicao* pos) {
 			}
 		}
 	}
-	return 0;
+	assert(("Casa não está no tabuleiro", 0));
 }
 
 void Spawnar_Numero(Board b) {

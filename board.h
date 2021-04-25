@@ -11,9 +11,6 @@ struct posicao {
 	int coluna;
 };
 
-// Valida o valor de uma posicao
-int Validar_Posicao(struct posicao pos);
-
 #define LADOS 4
 #define CASAS (LADOS*LADOS)
 
