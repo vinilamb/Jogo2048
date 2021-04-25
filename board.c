@@ -9,17 +9,31 @@ void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qt
 
 // Encontra índices da casa na matriz bidimensional
 // Peça deve estar no tabuleiro.
-int Posicao_Casa(Board b, struct square* casa, struct posicao* pos) {
+struct posicao Posicao_Da_Casa(Board b, struct square* casa) {
+	struct posicao pos;
+	int casa_esta_no_tabuleiro = 0;
 	for (int i = 0; i < LADOS; i++) {
 		for (int j = 0; j < LADOS; j++) {
 			if (&b[i][j] == casa) {
-				pos->linha = i;
-				pos->coluna = j;
-				return 1;
+				pos.linha = i;
+				pos.coluna = j;
+				casa_esta_no_tabuleiro = 1;
+				break;
 			}
 		}
 	}
-	assert(("Casa não está no tabuleiro", 0));
+	assert(casa_esta_no_tabuleiro);
+	return pos;
+}
+
+int validar_posicao(struct posicao pos) {
+	return (0 <= pos.linha && pos.linha < LADOS)
+		&& (0 <= pos.coluna && pos.coluna < LADOS);
+}
+
+struct square* Casa_Na_Posicao(Board b, struct posicao pos) {
+	assert(validar_posicao(pos));
+	return &b[pos.linha][pos.coluna];
 }
 
 void Spawnar_Numero(Board b) {
@@ -175,36 +189,34 @@ void Mover_Baixo(Board b, struct square* casa_ptr) {
 // -----------------------------------------------------------------
 
 struct square* Casa_Esquerda(Board b, struct square* casa_ptr) {
-	struct posicao pos;
-	Posicao_Casa(b, casa_ptr, &pos);
+	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.coluna = pos.coluna - 1;
-	if (pos.coluna < 0) return NULL;
+	if (!validar_posicao(pos)) return NULL;
 	return &b[pos.linha][pos.coluna];
 }
 
 struct square* Casa_Direita(Board b, struct square* casa_ptr) {
-	struct posicao pos;
-	Posicao_Casa(b, casa_ptr, &pos);
+	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.coluna = pos.coluna + 1;
-	if (!(pos.coluna < LADOS)) return NULL;
+	if (!validar_posicao(pos)) return NULL;
 	return &b[pos.linha][pos.coluna];
 }
 
 struct square* Casa_Cima(Board b, struct square* casa_ptr) {
-	struct posicao pos;
-	Posicao_Casa(b, casa_ptr, &pos);
+	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.linha = pos.linha - 1;
-	if (pos.linha < 0) return NULL;
+	if (!validar_posicao(pos)) return NULL;
 	return &b[pos.linha][pos.coluna];
 }
 
 struct square* Casa_Baixo(Board b, struct square* casa_ptr) {
-	struct posicao pos;
-	Posicao_Casa(b, casa_ptr, &pos);
+	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.linha = pos.linha + 1;
-	if (!(pos.linha < LADOS)) return NULL;
+	if (!validar_posicao(pos)) return NULL;
 	return &b[pos.linha][pos.coluna];
 }
+
+// Outras funções
 
 void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias) {
 	*qtd_vazias = 0;

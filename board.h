@@ -21,8 +21,10 @@ typedef struct square Board[LADOS][LADOS];
 void Fill_Board(Board b, int value);
 
 // Encontra índices da casa na matriz bidimensional
-// Retorno 0 = Peça não está no tabuleiro
-int Posicao_Casa(Board b, struct square* casa, struct posicao* pos);
+struct posicao Posicao_Da_Casa(Board b, struct square* casa);
+
+// Encotra a casa referenca a posição no tabuleiro
+struct square* Casa_Na_Posicao(Board b, struct posicao pos);
 
 // Spawna um novo 2 (com 90% de chance) ou 4 (10% das vezes) no tabuleiro, apenas se houver espaço.
 void Spawnar_Numero(Board b);
