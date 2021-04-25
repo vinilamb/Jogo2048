@@ -2,16 +2,8 @@
 
 #include <stdio.h>
 
-void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias) {
-	*qtd_vazias = 0;
-	struct square* p;
-	for (p = b[0]; p < b[0] + CASAS; p++) {
-		if (p->valor == 0) {
-			buffer_vazias[*qtd_vazias] = p;
-			*qtd_vazias += 1;
-		}
-	}
-}
+// preenche o buffer com casas vazias e retorna o total de vazias
+void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias);
 
 int Validar_Posicao(struct posicao pos) {
 	return pos.linha < LADOS&& pos.coluna < LADOS;
@@ -51,7 +43,7 @@ void Spawnar_Numero(Board b) {
 }
 
 // Atribui o valor a todas as casas do tabuleiro
-void fill_board(Board b, int value) {
+void Fill_Board(Board b, int value) {
 	int i, j;
 	for (i = 0; i < LADOS; i++) {
 		for (j = 0; j < LADOS; j++) {
@@ -210,5 +202,16 @@ void Mover_Esquerda(Board b, struct square* casa_ptr) {
 	}
 	else {
 		return;
+	}
+}
+
+void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias) {
+	*qtd_vazias = 0;
+	struct square* p;
+	for (p = b[0]; p < b[0] + CASAS; p++) {
+		if (p->valor == 0) {
+			buffer_vazias[*qtd_vazias] = p;
+			*qtd_vazias += 1;
+		}
 	}
 }

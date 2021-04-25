@@ -5,7 +5,7 @@
 
 int main(void) {
 	Board b;
-	fill_board(b, 0);
+	Fill_Board(b, 0);
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
 
