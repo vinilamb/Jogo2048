@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClCompile Include="board.c" />
     <ClCompile Include="jogo.c" />
+    <ClCompile Include="placar.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="placar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
