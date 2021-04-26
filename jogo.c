@@ -5,12 +5,9 @@
 #include "board.h"
 
 void imprimir_board(Board b) {
-	for (int i = 0; i < LADOS; i++) {
-		for (int j = 0; j < LADOS; j++) {
-			printf("%4d", b[i][j].valor);
-		}
-		printf("\n");
-	}
+	board_iter(
+		printf("%4d", i_casa->valor); if (i_pos.coluna == 3) printf("\n")
+	)
 }
 
 int main(void) {

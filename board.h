@@ -17,6 +17,11 @@ struct posicao {
 // Definição do tabuleiro
 typedef struct square Board[LADOS][LADOS];
 
+#define board_iter(fn) struct posicao i_pos; \
+struct square *i_casa; \
+for (i_pos.linha = 0; i_pos.linha < LADOS; i_pos.linha++) \
+for (i_pos.coluna = 0; i_pos.coluna < LADOS; i_pos.coluna++) { i_casa = Casa_Na_Posicao(b, i_pos); fn; } 
+
 // Atribui o valor a todas as casas do tabuleiro
 void Fill_Board(Board b, int value);
 
