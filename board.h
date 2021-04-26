@@ -35,11 +35,8 @@ void Jogada_Baixo(Board b);
 void Jogada_Esquerda(Board b);
 void Jogada_Direita(Board b);
 
-// funções para mover peças
-void Mover_Esquerda(Board b, struct square* casa);
-void Mover_Baixo(Board b, struct square* casa);
-void Mover_Cima(Board b, struct square* casa);
-void Mover_Direita(Board b, struct square* casa);
+// funções para mover peças individuais
+void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(Board, struct square*));
 
 // funções Casa_%DIREÇÃO% retornam null se casa não for válida ou não estiver na Board
 // Em vez de Casa, quem sabe Vizinho no nome?
