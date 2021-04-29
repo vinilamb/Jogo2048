@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.c" />
+    <ClCompile Include="display.c" />
     <ClCompile Include="jogo.c" />
     <ClCompile Include="placar.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="display.h" />
     <ClInclude Include="placar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

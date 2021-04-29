@@ -24,12 +24,18 @@
     <ClCompile Include="placar.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="display.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="placar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

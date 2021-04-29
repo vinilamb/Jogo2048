@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <stdbool.h>
 
 #include "board.h"
+#include "display.h"
 
 void imprimir_board(Board b) {
 	board_iter(
@@ -10,20 +12,25 @@ void imprimir_board(Board b) {
 	)
 }
 
+// Teste do console
+//int main(void) {
+//	Display_Casa(5, 5);
+//	Display_Casa(1, 3);
+//	Display_Casa(12, 5);
+//	Display_Casa(7, 8);
+//}
+
 int main(void) {
 	Board b;
-	Fill_Board(b, 64);
+	Fill_Board(b, 2);
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
-
-	//int i = 1;
-	//board_iter(i_casa->valor = i++);
 
 	// Imprime tabuleiro
 	printf("\n");
 	imprimir_board(b);
 
-	// Loop
+	// Loop do Jogo
 	while (1) {
 		char cmd;
 		// Lê comando
@@ -45,10 +52,9 @@ int main(void) {
 			printf("Você venceu!");
 			goto SAIR;
 		}
+		
 		// se não acabou, spawna um número
 		Spawnar_Numero(b);
-		// se acabou, sair do loop
-
 		// Imprime tabuleiro
 		printf("\n");
 		imprimir_board(b);
