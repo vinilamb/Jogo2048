@@ -56,7 +56,7 @@ void Fill_Board(Board b, int value) {
 void Jogada_Esquerda(Board b) {
 	for (int col = 1; col < LADOS; col++) {
 		for (int linha = 0; linha < LADOS; linha++) {
-			Deslizar_Casa(b, &b[linha][col], Vizinho_Esquerda);
+			Deslizar_Casa(b, &b[linha][col], Esquerda);
 		}
 	}
 }
@@ -64,7 +64,7 @@ void Jogada_Esquerda(Board b) {
 void Jogada_Direita(Board b) {
 	for (int col = 3; col >= 0; col--) {
 		for (int linha = 0; linha < LADOS; linha++) {
-			Deslizar_Casa(b, &b[linha][col], Vizinho_Direita);
+			Deslizar_Casa(b, &b[linha][col], Direita);
 		}
 	}
 }
@@ -72,7 +72,7 @@ void Jogada_Direita(Board b) {
 void Jogada_Cima(Board b) {
 	for (int linha = 1; linha < LADOS; linha++) {
 		for (int col = 0; col < LADOS; col++) {
-			Deslizar_Casa(b, &b[linha][col], Vizinho_Cima);
+			Deslizar_Casa(b, &b[linha][col], Cima);
 		}
 	}
 }
@@ -80,7 +80,7 @@ void Jogada_Cima(Board b) {
 void Jogada_Baixo(Board b) {
 	for (int linha = 2; linha >= 0; linha--) {
 		for (int col = 0; col < LADOS; col++) {
-			Deslizar_Casa(b, &b[linha][col], Vizinho_Baixo);
+			Deslizar_Casa(b, &b[linha][col], Baixo);
 		}
 	}
 }
@@ -89,8 +89,8 @@ void Jogada_Baixo(Board b) {
 // Funções do Movimento de Peças Individuais
 // ------------------------------------------
 
-void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(Board, struct square*)) {
-	struct square* next = (*proximaCasa)(b, casa);
+void Deslizar_Casa(Board b, struct square* casa, enum Sentido s) {
+	struct square* next = Vizinho(b, casa, s);
 
 	if (next == NULL)
 		return;
@@ -98,7 +98,7 @@ void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(B
 	if (next->valor == 0) {
 		next->valor = casa->valor;
 		casa->valor = 0;
-		Deslizar_Casa(b, next, proximaCasa);
+		Deslizar_Casa(b, next, s);
 	}
 	else if (next->valor == casa->valor) {
 		next->valor += casa->valor;
@@ -107,33 +107,18 @@ void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(B
 }
 
 // -----------------------------------------------------------------
-//	Funções para encontrar casas em posição relativa a outras casas
+//	Função para encontrar casas em posição relativa a outras casas
 // -----------------------------------------------------------------
 
-struct square* Vizinho_Esquerda(Board b, struct square* casa_ptr) {
+struct square* Vizinho(Board b, struct square* casa_ptr, enum Sentido s) {
 	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
-	pos.coluna = pos.coluna - 1;
-	if (!validar_posicao(pos)) return NULL;
-	return Casa_Na_Posicao(b, pos);
-}
-
-struct square* Vizinho_Direita(Board b, struct square* casa_ptr) {
-	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
-	pos.coluna = pos.coluna + 1;
-	if (!validar_posicao(pos)) return NULL;
-	return Casa_Na_Posicao(b, pos);
-}
-
-struct square* Vizinho_Cima(Board b, struct square* casa_ptr) {
-	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
-	pos.linha = pos.linha - 1;
-	if (!validar_posicao(pos)) return NULL;
-	return Casa_Na_Posicao(b, pos);
-}
-
-struct square* Vizinho_Baixo(Board b, struct square* casa_ptr) {
-	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
-	pos.linha = pos.linha + 1;
+	switch (s)
+	{
+	case Cima:		pos.linha = pos.linha - 1; break;
+	case Direita:	pos.coluna = pos.coluna + 1; break;
+	case Esquerda:	pos.coluna = pos.coluna - 1; break;
+	case Baixo:		pos.linha = pos.linha + 1; break;
+	}
 	if (!validar_posicao(pos)) return NULL;
 	return Casa_Na_Posicao(b, pos);
 }
@@ -142,16 +127,16 @@ struct square* Vizinho_Baixo(Board b, struct square* casa_ptr) {
 //	Fim de jogo
 // --------------
 
-int Movimento_Possivel(struct square casa, struct square *vizinho) {
+int Movimento_Possivel(struct square casa, struct square* vizinho) {
 	if (vizinho == NULL) return 0;
 	return casa.valor == 0 || vizinho->valor == 0 || casa.valor == vizinho->valor;
 }
 
 int Casa_Movivel(Board b, struct square* casa) {
-	return Movimento_Possivel(*casa, Vizinho_Cima(b, casa))
-		|| Movimento_Possivel(*casa, Vizinho_Esquerda(b, casa))
-		|| Movimento_Possivel(*casa, Vizinho_Direita(b, casa))
-		|| Movimento_Possivel(*casa, Vizinho_Baixo(b, casa));
+	for (enum Sentido s = Cima; s <= Baixo; s++) {
+		if (Movimento_Possivel(*casa, Vizinho(b, casa, s))) return 1;
+	}
+	return 0;
 }
 
 int Jogo_Acabou(Board b) {

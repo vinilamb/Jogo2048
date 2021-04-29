@@ -1,6 +1,13 @@
 #ifndef H_BOARD
 #define H_BOARD
 
+enum Sentido {
+	Cima = 0,
+	Direita = 1,
+	Esquerda = 2,
+	Baixo = 3
+};
+
 struct square {
 	int cor;
 	int valor;
@@ -43,17 +50,7 @@ void Jogada_Direita(Board b);
 // funções para mover peças individuais
 void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(Board, struct square*));
 
-// Retorna a casa em baixo da casa informada, ou NULL se não existir.
-struct square* Vizinho_Cima(Board b, struct square* casa_ptr);
-
-// Retorna a casa em baixo da casa informada, ou NULL se não existir.
-struct square* Vizinho_Baixo(Board b, struct square* casa_ptr);
-
-// Retorna casa a esquerda da casa informada, ou NULL se não existir.
-struct square* Vizinho_Esquerda(Board b, struct square* casa_ptr);
-
-// Retorna casa a direita da casa informada, ou NULL se não existir.
-struct square* Vizinho_Direita(Board b, struct square* casa_ptr);
+struct square* Vizinho(Board b, struct square* casa_ptr, enum Sentido s);
 
 int Jogo_Acabou(Board b);
 
