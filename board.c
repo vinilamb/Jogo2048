@@ -56,7 +56,7 @@ void Fill_Board(Board b, int value) {
 void Jogada_Esquerda(Board b) {
 	for (int col = 1; col < LADOS; col++) {
 		for (int linha = 0; linha < LADOS; linha++) {
-			Deslizar_Casa(b, &b[linha][col], Casa_Esquerda);
+			Deslizar_Casa(b, &b[linha][col], Vizinho_Esquerda);
 		}
 	}
 }
@@ -64,7 +64,7 @@ void Jogada_Esquerda(Board b) {
 void Jogada_Direita(Board b) {
 	for (int col = 3; col >= 0; col--) {
 		for (int linha = 0; linha < LADOS; linha++) {
-			Deslizar_Casa(b, &b[linha][col], Casa_Direita);
+			Deslizar_Casa(b, &b[linha][col], Vizinho_Direita);
 		}
 	}
 }
@@ -72,7 +72,7 @@ void Jogada_Direita(Board b) {
 void Jogada_Cima(Board b) {
 	for (int linha = 1; linha < LADOS; linha++) {
 		for (int col = 0; col < LADOS; col++) {
-			Deslizar_Casa(b, &b[linha][col], Casa_Cima);
+			Deslizar_Casa(b, &b[linha][col], Vizinho_Cima);
 		}
 	}
 }
@@ -80,7 +80,7 @@ void Jogada_Cima(Board b) {
 void Jogada_Baixo(Board b) {
 	for (int linha = 2; linha >= 0; linha--) {
 		for (int col = 0; col < LADOS; col++) {
-			Deslizar_Casa(b, &b[linha][col], Casa_Baixo);
+			Deslizar_Casa(b, &b[linha][col], Vizinho_Baixo);
 		}
 	}
 }
@@ -110,28 +110,28 @@ void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(B
 //	Funções para encontrar casas em posição relativa a outras casas
 // -----------------------------------------------------------------
 
-struct square* Casa_Esquerda(Board b, struct square* casa_ptr) {
+struct square* Vizinho_Esquerda(Board b, struct square* casa_ptr) {
 	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.coluna = pos.coluna - 1;
 	if (!validar_posicao(pos)) return NULL;
 	return Casa_Na_Posicao(b, pos);
 }
 
-struct square* Casa_Direita(Board b, struct square* casa_ptr) {
+struct square* Vizinho_Direita(Board b, struct square* casa_ptr) {
 	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.coluna = pos.coluna + 1;
 	if (!validar_posicao(pos)) return NULL;
 	return Casa_Na_Posicao(b, pos);
 }
 
-struct square* Casa_Cima(Board b, struct square* casa_ptr) {
+struct square* Vizinho_Cima(Board b, struct square* casa_ptr) {
 	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.linha = pos.linha - 1;
 	if (!validar_posicao(pos)) return NULL;
 	return Casa_Na_Posicao(b, pos);
 }
 
-struct square* Casa_Baixo(Board b, struct square* casa_ptr) {
+struct square* Vizinho_Baixo(Board b, struct square* casa_ptr) {
 	struct posicao pos = Posicao_Da_Casa(b, casa_ptr);
 	pos.linha = pos.linha + 1;
 	if (!validar_posicao(pos)) return NULL;

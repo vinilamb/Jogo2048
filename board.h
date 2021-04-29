@@ -43,11 +43,16 @@ void Jogada_Direita(Board b);
 // funções para mover peças individuais
 void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(Board, struct square*));
 
-// funções Casa_%DIREÇÃO% retornam null se casa não for válida ou não estiver na Board
-// Em vez de Casa, quem sabe Vizinho no nome?
-struct square* Casa_Cima(Board b, struct square* casa_ptr);
-struct square* Casa_Baixo(Board b, struct square* casa_ptr);
-struct square* Casa_Esquerda(Board b, struct square* casa_ptr);
-struct square* Casa_Direita(Board b, struct square* casa_ptr);
+// Retorna a casa em baixo da casa informada, ou NULL se não existir.
+struct square* Vizinho_Cima(Board b, struct square* casa_ptr);
+
+// Retorna a casa em baixo da casa informada, ou NULL se não existir.
+struct square* Vizinho_Baixo(Board b, struct square* casa_ptr);
+
+// Retorna casa a esquerda da casa informada, ou NULL se não existir.
+struct square* Vizinho_Esquerda(Board b, struct square* casa_ptr);
+
+// Retorna casa a direita da casa informada, ou NULL se não existir.
+struct square* Vizinho_Direita(Board b, struct square* casa_ptr);
 
 #endif // H_BOARD
