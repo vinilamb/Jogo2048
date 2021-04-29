@@ -138,6 +138,27 @@ struct square* Vizinho_Baixo(Board b, struct square* casa_ptr) {
 	return Casa_Na_Posicao(b, pos);
 }
 
+// --------------
+//	Fim de jogo
+// --------------
+
+int Movimento_Possivel(struct square casa, struct square *vizinho) {
+	if (vizinho == NULL) return 0;
+	return casa.valor == 0 || vizinho->valor == 0 || casa.valor == vizinho->valor;
+}
+
+int Casa_Movivel(Board b, struct square* casa) {
+	return Movimento_Possivel(*casa, Vizinho_Cima(b, casa))
+		|| Movimento_Possivel(*casa, Vizinho_Esquerda(b, casa))
+		|| Movimento_Possivel(*casa, Vizinho_Direita(b, casa))
+		|| Movimento_Possivel(*casa, Vizinho_Baixo(b, casa));
+}
+
+int Jogo_Acabou(Board b) {
+	board_iter(if (Casa_Movivel(b, i_casa)) return 0);
+	return 1;
+}
+
 // Outras funções
 void encontra_casas_vazias(Board b, struct square* buffer_vazias[CASAS], int* qtd_vazias) {
 	*qtd_vazias = 0;

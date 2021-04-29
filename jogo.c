@@ -12,9 +12,12 @@ void imprimir_board(Board b) {
 
 int main(void) {
 	Board b;
-	Fill_Board(b, 0);
+	Fill_Board(b, 64);
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
+
+	//int i = 1;
+	//board_iter(i_casa->valor = i++);
 
 	// Imprime tabuleiro
 	printf("\n");
@@ -38,6 +41,10 @@ int main(void) {
 		}
 
 		// checar se o jogo acabou
+		if (Jogo_Acabou(b)) {
+			printf("Você venceu!");
+			goto SAIR;
+		}
 		// se não acabou, spawna um número
 		Spawnar_Numero(b);
 		// se acabou, sair do loop

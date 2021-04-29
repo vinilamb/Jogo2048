@@ -55,4 +55,6 @@ struct square* Vizinho_Esquerda(Board b, struct square* casa_ptr);
 // Retorna casa a direita da casa informada, ou NULL se não existir.
 struct square* Vizinho_Direita(Board b, struct square* casa_ptr);
 
+int Jogo_Acabou(Board b);
+
 #endif // H_BOARD
