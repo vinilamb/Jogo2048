@@ -17,7 +17,7 @@ void obter_score(Placar buffer, int score);
 
 void salvar_placar(Placar buffer);
 
-void fill_placar(Placar buffer);
+void fill_placar(void);
 
 void imprimir_score(int score);
 

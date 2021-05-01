@@ -1,5 +1,5 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS  //necessário para o fopen
 #define PLACAR_ARQ "C:\\Users\\navar\\Desktop\\AlgProg\\Trab Final\\placar.txt"  //MUDAR PARA APENAS PLACAR.TXT
 #define MAX_NOME 11
 #define MAX_PLACAR 10
@@ -19,45 +19,57 @@ struct registro {
 typedef struct registro Placar[MAX_PLACAR];
 
 
-
-void fill_placar(Placar buffer) {
-	for (int i = 0; i < MAX_PLACAR; i++) {
-		fgets(buffer[i].nome, MAX_NOME, stdin);
-		if (strlen(buffer[i].nome) != MAX_NOME - 1 || buffer[i].nome[MAX_NOME - 2] == '\n')
-			buffer[i].nome[strlen(buffer[i].nome) - 1] = '\0';
-		fflush(stdin);
-		buffer[i].score = 0;
+//Cria um template para o arquivo placar
+void fill_placar(void) {
+	FILE* arq = fopen(PLACAR_ARQ, "w");
+	if (arq == NULL) {
+		printf("Não foi possível acessar o arquivo.");
+		exit(EXIT_FAILURE);
 	}
+
+	for (int i = 0; i < MAX_PLACAR; i++) {
+		fprintf(arq, "---\n-1\n");
+	}
+	fclose(arq);
+
+
 	return;
 }
 
-//Nao quer criar o txt na pasta do meu repo (Vini N.)!!
 
+//Nao quer criar o txt na pasta do meu repo (Vini N.)!!
+//Salva o placar no txt
 void salvar_placar(Placar buffer) {
 	FILE *arq = fopen(PLACAR_ARQ, "r+");
 	if (arq == NULL) {
 		printf("Não foi possível acessar o arquivo.");
-		return;
+		exit(EXIT_FAILURE);
 	}
 
 	for (int i = 0; i < MAX_PLACAR; i++) {
-		fprintf(arq, "%s %d\n", buffer[i].nome, buffer[i].score);
+		fprintf(arq, "%s\n%d\n", buffer[i].nome, buffer[i].score);
 	}
 	fclose(arq);
 	return;
 }
-/*    //Tá dando excecao no segundo strtok sla pq...
-struct registro ler_linha(FILE *arq) {
-	char string_lida[30], *pch = NULL;
-	struct registro jogador;
-	fgets(string_lida, 30, arq);
-	pch = strtok(string_lida, " ");
-	strcpy(jogador.nome, pch);
-	pch = strtok(pch, "\n");
-	jogador.score = atoi(pch);
-	return jogador;
-}*/
 
+
+//Lê a e retorna a informação relativa a um jogador no arquivo placar
+struct registro ler_informacao(FILE *arq) {
+	struct registro jogador;
+	char caux;
+	fgets(jogador.nome, MAX_NOME, arq);
+	if (strlen(jogador.nome) != MAX_NOME - 1 || jogador.nome[MAX_NOME - 2] == '\n')
+		jogador.nome[strlen(jogador.nome) - 1] = '\0';
+
+	fscanf(arq, " %d", &jogador.score);
+	fscanf(arq, "%c", &caux);
+
+	printf("\n ler linha %s %d \n", jogador.nome, jogador.score);
+	return jogador;
+}
+
+//Lê o arquivo placar e preenche o buffer
 void ler_placar(Placar buffer) {
 	FILE* arq = fopen(PLACAR_ARQ, "r");
 
@@ -65,33 +77,35 @@ void ler_placar(Placar buffer) {
 		printf("Erro na leitura do placar!!");
 		exit(EXIT_FAILURE);
 	}else{
-		for (int i = 0; i < MAX_NOME; i++) {
-			buffer[i] = ler_linha(arq);
+		for (int i = 0; i < MAX_PLACAR; i++) {
+			buffer[i] = ler_informacao(arq);
+			printf("\n buffer %s %d\n", buffer[i].nome, buffer[i].score);
 		}
 	}
 	
 	fclose(arq);
-
+	return;
 }
 
 
-//Queria verificar!!!!
+//Compara o escore obtido com o top 10 e substitui na posicao adequada
 void obter_score(Placar buffer, int score) {
-	for (int i = 0; i <= MAX_PLACAR; i++) {
+	for (int i = 0; i < MAX_PLACAR; i++) {
 		if (score > buffer[i].score) {
 			struct registro pontuacao;
-
 			printf("Insira o seu nome: ");
 			fgets(pontuacao.nome, MAX_NOME, stdin);
 			if (strlen(pontuacao.nome) != MAX_NOME - 1 || pontuacao.nome[MAX_NOME - 2] == '\n')
 				pontuacao.nome[strlen(pontuacao.nome) - 1] = '\0';
-
+			printf("oi1\n");
 			pontuacao.score = score;
-			for (int j = 0; j < MAX_PLACAR - i; j++) {
-				buffer[MAX_PLACAR - j] = buffer[MAX_PLACAR - j - 1];
+			for (int j = 0; j <= MAX_PLACAR - i - 1; j++) {
+				printf("%d\nbuffer[%d] =buffer[%d] \n", MAX_PLACAR - i - 1, MAX_PLACAR - j, MAX_PLACAR - j - 1);
+				buffer[MAX_PLACAR - j-1] = buffer[MAX_PLACAR - j  - 2];
 			}
-
+			printf("oi %d", i);
 			buffer[i] = pontuacao;
+			printf("\ntestefinal %d\n", i);
 			return;
 		}
 	}

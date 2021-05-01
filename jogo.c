@@ -20,8 +20,8 @@ void imprimir_board(Board b) {
 //	Display_Casa(7, 8);
 //}
 
-/* Para testar a criação do placar
-int main(void) {
+// Para testar a criação do placar
+/*int main(void) {
 	Placar p;
 	fill_placar(p);
 	salvar_placar(p);
@@ -76,6 +76,11 @@ int main(void) {
 	}
 
 SAIR:;
+	//fill_placar();
 	//ler_placar(p);
 	//obter_score(p, score);
+	//salvar_placar(p);
+	return 0;
 }
+
+
