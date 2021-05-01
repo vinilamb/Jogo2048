@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <stdbool.h>
-
 #include "board.h"
 #include "display.h"
+#include "placar.h"
 
 void imprimir_board(Board b) {
 	board_iter(
@@ -13,22 +13,35 @@ void imprimir_board(Board b) {
 }
 
 // Teste do console
-//int main(void) {
+//int main(vogid) {
 //	Display_Casa(5, 5);
 //	Display_Casa(1, 3);
 //	Display_Casa(12, 5);
 //	Display_Casa(7, 8);
 //}
 
+/* Para testar a criação do placar
 int main(void) {
+	Placar p;
+	fill_placar(p);
+	salvar_placar(p);
+}*/
+
+
+int main(void) {
+	int score = 0;
 	Board b;
-	Fill_Board(b, 2);
+	Placar p;
+
+	Fill_Board(b, 0);
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
 
 	// Imprime tabuleiro
 	printf("\n");
 	imprimir_board(b);
+
+	imprimir_score(score);
 
 	// Loop do Jogo
 	while (1) {
@@ -39,10 +52,10 @@ int main(void) {
 
 		// Processa comando
 		switch (cmd) {
-		case 'w': Jogada_Cima(b);       break;
-		case 'a': Jogada_Esquerda(b);   break;
-		case 's': Jogada_Baixo(b);      break;
-		case 'd': Jogada_Direita(b);    break;
+		case 'w': Jogada_Cima(b, &score);       break;
+		case 'a': Jogada_Esquerda(b, &score);   break;
+		case 's': Jogada_Baixo(b, &score);      break;
+		case 'd': Jogada_Direita(b, &score);    break;
 		case 'e': goto SAIR;
 		default: break;
 		}
@@ -58,7 +71,11 @@ int main(void) {
 		// Imprime tabuleiro
 		printf("\n");
 		imprimir_board(b);
+
+		imprimir_score(score);
 	}
 
 SAIR:;
+	//ler_placar(p);
+	//obter_score(p, score);
 }

@@ -42,13 +42,13 @@ struct square* Casa_Na_Posicao(Board b, struct posicao pos);
 void Spawnar_Numero(Board b);
 
 // Processa uma jogada sobre o tabuleiro, na direção especificada.
-void Jogada_Cima(Board b);
-void Jogada_Baixo(Board b);
-void Jogada_Esquerda(Board b);
-void Jogada_Direita(Board b);
+void Jogada_Cima(Board b, int* score);
+void Jogada_Baixo(Board b, int* score);
+void Jogada_Esquerda(Board b, int* score);
+void Jogada_Direita(Board b, int* score);
 
 // funções para mover peças individuais
-void Deslizar_Casa(Board b, struct square* casa, struct square* (*proximaCasa)(Board, struct square*));
+void Deslizar_Casa(Board b, struct square* casa, enum Sentido s, int* score);
 
 struct square* Vizinho(Board b, struct square* casa_ptr, enum Sentido s);
 

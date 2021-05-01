@@ -1,15 +1,26 @@
 #pragma once
 
-#define MAX_NOME
+#define MAX_NOME 11
 #define MAX_PLACAR 10
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 struct registro {
-	int score;
 	char nome[MAX_NOME];
+	int score;
 };
 
-typedef registro Placar[MAX_PLACAR];
+typedef struct registro Placar[MAX_PLACAR];
 
-void obter_placar(Placar buffer);
+void obter_score(Placar buffer, int score);
 
-void salvar_placar(Placar buffer, registro novo);
+void salvar_placar(Placar buffer);
+
+void fill_placar(Placar buffer);
+
+void imprimir_score(int score);
+
+void ler_placar(Placar buffer);
+
+struct registro ler_linha(FILE* arq);
