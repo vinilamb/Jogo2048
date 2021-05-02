@@ -9,7 +9,6 @@
 #include <assert.h>
 
 
-int score = 0;
 
 struct registro {
 	char nome[MAX_NOME];

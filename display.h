@@ -1,9 +1,17 @@
 #pragma once
 
-#include <conio.h>
+#include <stdbool.h>
 
-void Display_Board();
+#include "board.h"
+#include "placar.h"
 
-void SetCoord(int x, int y);
+void Display();
 
-void Display_Casa(int x, int y);
+// Remover esses do header depois
+void Display_Board(Board b);
+void Display_Casa(int x, int y, int score);
+void Display_Score(int score);
+void Display_Movimentos(int score);
+void Display_Placar(Placar p);
+
+void MostrarCursor(bool mostrar);

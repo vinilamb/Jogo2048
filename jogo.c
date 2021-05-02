@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <stdbool.h>
+
 #include "board.h"
 #include "display.h"
 #include "placar.h"
@@ -13,12 +14,17 @@ void imprimir_board(Board b) {
 }
 
 // Teste do console
-//int main(vogid) {
-//	Display_Casa(5, 5);
-//	Display_Casa(1, 3);
-//	Display_Casa(12, 5);
-//	Display_Casa(7, 8);
-//}
+int main2(void) {
+	//Board b;
+	//int i = 2;
+	//board_iter(
+	//	i_casa->valor = i;
+	//	i *= 2;
+	//);
+	//Display_Board(b);
+	Display_Casa(2, 2, 0);
+	printf("Lol");
+}
 
 // Para testar a criação do placar
 /*int main(void) {
@@ -29,26 +35,24 @@ void imprimir_board(Board b) {
 
 
 int main(void) {
-	int score = 0;
+	int score = 0, movimentos = 0;
 	Board b;
 	Placar p;
+
+	MostrarCursor(false);
 
 	Fill_Board(b, 0);
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
 
-	// Imprime tabuleiro
-	printf("\n");
-	imprimir_board(b);
-
-	imprimir_score(score);
+	Display(b, score, movimentos);
 
 	// Loop do Jogo
 	while (1) {
 		char cmd;
 		// Lê comando
-		printf("\nFaça uma jogada. Use WASD. E para sair: ");
-		cmd = _getche();
+		printf("\nFaça uma jogada. Use WASD. E para sair.");
+		cmd = _getch();
 
 		// Processa comando
 		switch (cmd) {
@@ -59,7 +63,7 @@ int main(void) {
 		case 'e': goto SAIR;
 		default: break;
 		}
-
+		movimentos++;
 		// checar se o jogo acabou
 		if (Jogo_Acabou(b)) {
 			printf("Você venceu!");
@@ -68,14 +72,17 @@ int main(void) {
 		
 		// se não acabou, spawna um número
 		Spawnar_Numero(b);
-		// Imprime tabuleiro
-		printf("\n");
-		imprimir_board(b);
 
-		imprimir_score(score);
+		// Display
+		Display(b, score, movimentos);
 	}
 
 SAIR:;
+
+	//struct registro r;
+	//r.nome = "nome";
+	//r.score = score;
+	//AtualizarPlacar(p, r);
 	//fill_placar();
 	//ler_placar(p);
 	//obter_score(p, score);
