@@ -1,117 +1,77 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS  //necessário para o fopen
-#define PLACAR_ARQ "C:\\Users\\navar\\Desktop\\AlgProg\\Trab Final\\placar.txt"  //MUDAR PARA APENAS PLACAR.TXT
-#define MAX_NOME 11
-#define MAX_PLACAR 10
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
 
+#include "placar.h"
+#include <stdbool.h>
 
+#define ARQUIVO "placar.txt"
 
-struct registro {
-	char nome[MAX_NOME];
-	int score;
-};
-
-typedef struct registro Placar[MAX_PLACAR];
-
-
-//Cria um template para o arquivo placar
-void fill_placar(void) {
-	FILE* arq = fopen(PLACAR_ARQ, "w");
-	if (arq == NULL) {
-		printf("Não foi possível acessar o arquivo.");
-		exit(EXIT_FAILURE);
+int ObterPlacar(Placar buffer)
+{
+	FILE* f = fopen(ARQUIVO, "r");
+	if (f == NULL) {
+		// Arquivo não existe (e possívelmente outros casos onde o arquivo não pode ser acessado)
+		return 0;
 	}
 
-	for (int i = 0; i < MAX_PLACAR; i++) {
-		fprintf(arq, "---\n-1\n");
+	int n_lidos = 0;
+	while (n_lidos < MAX_NOME) {
+		struct registro* current = &buffer[n_lidos];
+		int r_scan;
+		char* r_fgets;
+
+		r_scan = fscanf(f, " %d", &current->score);
+		r_fgets = fgets(current->nome, MAX_NOME, f);
+
+		if (r_scan == EOF || r_scan != 1 || r_fgets == NULL)
+			break;
+
+		n_lidos++;
 	}
-	fclose(arq);
 
-
-	return;
+	fclose(f);
+	return n_lidos;
 }
 
+// Tenta inserir o registro no placar. Se o registro for um novo recorde, 
+// ele será inserido no placar na posição adequada. Caso contrário nada acontece.
+void InsereRecorde(Placar p, int n, struct registro r) {
+	//struct registro temp;
+	//bool inserido = false;
 
-//Nao quer criar o txt na pasta do meu repo (Vini N.)!!
-//Salva o placar no txt
-void salvar_placar(Placar buffer) {
-	FILE *arq = fopen(PLACAR_ARQ, "r+");
-	if (arq == NULL) {
-		printf("Não foi possível acessar o arquivo.");
-		exit(EXIT_FAILURE);
-	}
+	//int i;
+	//for (i = n - 1; (i >= 0 && p[i].score > r.score); i--)
+	//	p[i + 1] = p[i];
 
-	for (int i = 0; i < MAX_PLACAR; i++) {
-		fprintf(arq, "%s\n%d\n", buffer[i].nome, buffer[i].score);
-	}
-	fclose(arq);
-	return;
+	//p[i + 1] = r;
+
+	//return n + 1;
 }
 
-
-//Lê a e retorna a informação relativa a um jogador no arquivo placar
-struct registro ler_informacao(FILE *arq) {
-	struct registro jogador;
-	char caux;
-	fgets(jogador.nome, MAX_NOME, arq);
-	if (strlen(jogador.nome) != MAX_NOME - 1 || jogador.nome[MAX_NOME - 2] == '\n')
-		jogador.nome[strlen(jogador.nome) - 1] = '\0';
-
-	fscanf(arq, " %d", &jogador.score);
-	fscanf(arq, "%c", &caux);
-
-	printf("\n ler linha %s %d \n", jogador.nome, jogador.score);
-	return jogador;
-}
-
-//Lê o arquivo placar e preenche o buffer
-void ler_placar(Placar buffer) {
-	FILE* arq = fopen(PLACAR_ARQ, "r");
-
-	if (arq == NULL) {
-		printf("Erro na leitura do placar!!");
-		exit(EXIT_FAILURE);
-	}else{
-		for (int i = 0; i < MAX_PLACAR; i++) {
-			buffer[i] = ler_informacao(arq);
-			printf("\n buffer %s %d\n", buffer[i].nome, buffer[i].score);
-		}
+// Modelo para a inserção do placar
+int insertSorted(int arr[], int n, int key)
+{
+	// Encontrar posição para inserir.
+	int insertAt = 0;
+	while (insertAt < n) {
+		if (key > arr[insertAt]) break;
+		insertAt++;
 	}
-	
-	fclose(arq);
-	return;
-}
 
+	if (insertAt == n) return;
 
-//Compara o escore obtido com o top 10 e substitui na posicao adequada
-void obter_score(Placar buffer, int score) {
-	for (int i = 0; i < MAX_PLACAR; i++) {
-		if (score > buffer[i].score) {
-			struct registro pontuacao;
-			printf("Insira o seu nome: ");
-			fgets(pontuacao.nome, MAX_NOME, stdin);
-			if (strlen(pontuacao.nome) != MAX_NOME - 1 || pontuacao.nome[MAX_NOME - 2] == '\n')
-				pontuacao.nome[strlen(pontuacao.nome) - 1] = '\0';
-			printf("oi1\n");
-			pontuacao.score = score;
-			for (int j = 0; j <= MAX_PLACAR - i - 1; j++) {
-				printf("%d\nbuffer[%d] =buffer[%d] \n", MAX_PLACAR - i - 1, MAX_PLACAR - j, MAX_PLACAR - j - 1);
-				buffer[MAX_PLACAR - j-1] = buffer[MAX_PLACAR - j  - 2];
-			}
-			printf("oi %d", i);
-			buffer[i] = pontuacao;
-			printf("\ntestefinal %d\n", i);
-			return;
-		}
+	// Efetua a inserção.
+	int moving = arr[insertAt];
+	arr[insertAt] = key;
+	insertAt++;
+	while (insertAt < n) {
+		int temp = arr[insertAt];
+		arr[insertAt] = moving;
+		moving = temp;
+		insertAt++;
 	}
 }
 
-
-void imprimir_score(int score) {
-	printf("Pontuacao: %d \n", score);
+void SalvarPlacarComRecorde(Placar placar, int n, struct registro recorde)
+{
 
 }

@@ -7,37 +7,21 @@
 #include "display.h"
 #include "placar.h"
 
-void imprimir_board(Board b) {
-	board_iter(
-		printf("%4d", i_casa->valor); if (i_pos.coluna == 3) printf("\n")
-	)
+#include "utils.h"
+
+int main() {
+	int arr[10] = { 32, 24, 15, 7, 3, 0, 0 };
+	int n = 5;
+	insertSorted(arr, n, 25);
+
+	for (int* p = arr; p < arr + n; p++)
+		printf("%d ", *p);
 }
 
-// Teste do console
+
 int main2(void) {
-	//Board b;
-	//int i = 2;
-	//board_iter(
-	//	i_casa->valor = i;
-	//	i *= 2;
-	//);
-	//Display_Board(b);
-	Display_Casa(2, 2, 0);
-	printf("Lol");
-}
-
-// Para testar a criação do placar
-/*int main(void) {
-	Placar p;
-	fill_placar(p);
-	salvar_placar(p);
-}*/
-
-
-int main(void) {
 	int score = 0, movimentos = 0;
 	Board b;
-	Placar p;
 
 	MostrarCursor(false);
 
@@ -69,7 +53,7 @@ int main(void) {
 			printf("Você venceu!");
 			goto SAIR;
 		}
-		
+
 		// se não acabou, spawna um número
 		Spawnar_Numero(b);
 

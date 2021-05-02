@@ -7,7 +7,7 @@
 // Surrupiado do StackOverflow
 // https://stackoverflow.com/questions/8621578/do-windows-console-color-values-have-official-names-constants-associated-with/49929936
 
-/*Enum to store Foreground colors*/
+// Cores do texto
 typedef enum FG_COLORS
 {
     FG_BLACK = 0,
@@ -28,7 +28,7 @@ typedef enum FG_COLORS
     FG_WHITE = 15
 }FG_COLORS;
 
-/*Enum to store Background colors*/
+// Cores do background
 typedef enum BG_COLORS
 {
     BG_NAVYBLUE = 16,
@@ -47,6 +47,8 @@ typedef enum BG_COLORS
     BG_YELLOW = 224,
     BG_WHITE = 240
 } BG_COLORS;
+
+BG_COLORS ScoreToCor(int score);
 
 HWND wnd = NULL;
 HWND Handle() {
@@ -105,11 +107,26 @@ void Display_Score(int x, int y, int score)
 
     SetConsoleTextAttribute(Handle(), FG_BLACK | BG_SILVER);
     SetCoord(x, y++);
-    printf("  Score  ");
+    printf("  Score  "); 
 
     SetConsoleTextAttribute(Handle(), FG_YELLOW | BG_GRAY);
     SetCoord(x, y++);
     printf("    %3d  ", score);  
+
+    SetConsoleTextAttribute(Handle(), info.wAttributes);
+}
+
+void Display_Movimentos(int x, int y, int movimentos) {
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(Handle(), &info);
+
+    SetConsoleTextAttribute(Handle(), FG_BLACK | BG_SILVER);
+    SetCoord(x, y++);
+    printf("  Movimentos  ");
+
+    SetConsoleTextAttribute(Handle(), FG_YELLOW | BG_GRAY);
+    SetCoord(x, y++);
+    printf("    %5d     ", movimentos);
 
     SetConsoleTextAttribute(Handle(), info.wAttributes);
 }
@@ -140,19 +157,15 @@ BG_COLORS ScoreToCor(int score) {
     }
 }
 
-enum Cor {
-	Red,
-	Green,
-	Blue
-};
-
 void Display(Board b, int score, int movimentos) {
     CONSOLE_SCREEN_BUFFER_INFO info;
     Display_Board(b);
 
     GetConsoleScreenBufferInfo(Handle(), &info);
 
-    Display_Score(50, 3, score);
+    Display_Score(47, 1, score);
+    Display_Movimentos(57, 1, movimentos);
+    //Display_Placar(p);
 
     SetConsoleCursorPosition(Handle(), info.dwCursorPosition);
 }

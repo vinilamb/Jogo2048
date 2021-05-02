@@ -10,8 +10,8 @@ void Display();
 // Remover esses do header depois
 void Display_Board(Board b);
 void Display_Casa(int x, int y, int score);
-void Display_Score(int score);
-void Display_Movimentos(int score);
+void Display_Score(int x, int y, int score);
+void Display_Movimentos(int x, int y, int movimentos);
 void Display_Placar(Placar p);
 
 void MostrarCursor(bool mostrar);
