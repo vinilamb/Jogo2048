@@ -149,6 +149,23 @@ void Display_Placar(int x, int y, Placar p, int n)
     SetConsoleTextAttribute(Handle(), info.wAttributes);
 }
 
+void Display_Menu(int x, int y, int opcaoSelecionada)
+{
+    char opcoes[][25] = {
+        "Novo jogo",
+        "Carregar um jogo salvo",
+        "Sair"
+    };
+    SetCoord(x, y);
+    printf("Bem vindo ao jogo 2048.\n");
+    // Imprime opçoes e realça opção selecionada
+    for (int i = 0; i < 3; i++) {
+        printf("  ");
+        if (i == opcaoSelecionada) printf("->");
+        printf("%s\n", opcoes[i]);
+    }
+}
+
 void MostrarCursor(bool mostrar)
 {
     CONSOLE_CURSOR_INFO info;

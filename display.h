@@ -13,5 +13,7 @@ void Display_Casa(int x, int y, int score);
 void Display_Score(int x, int y, int score);
 void Display_Movimentos(int x, int y, int movimentos);
 void Display_Placar(int x, int y, Placar p, int n);
+void Display_Menu(int x, int y, int opcao);
+
 
 void MostrarCursor(bool mostrar);

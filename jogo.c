@@ -1,27 +1,57 @@
 #include "jogo.h"
+#include <conio.h>
+#include <Windows.h>
 
-int main(void) {
+int JogoMain(struct game_state* state);
+
+int main() {
+	MainMenu();
+}
+
+int MainMenu() {
+	printf("Bem vindo ao 2048. Suas opcoes sao: \n");
+	printf("  1. (N)ovo jogo\n");
+	printf("  2. (C)arregar um jogo salvo\n");
+	printf("  3. (S)air\n");
+
+	printf("Digite sua escolha: ");
+	char cmd;
+	rd: cmd = getchar();
+	switch (cmd) {
+	case '1': case 'N': case 'n':
+		struct game_state state;
+		NewGame(&state);
+		JogoMain(&state);
+		break;
+	case '2': case 'C': case 'c':
+		// Novo jogo aqui
+		break;
+	case '3': case 'S': case 's':
+		break;
+	}
+}
+
+int JogoMain(struct game_state* state) {
 	Placar p;
-	struct game_state state;
-	NewGame(&state);
-	MostrarCursor(false);
-	int n_placar = ObterPlacar(p);
-	Display(state.board, state.score, state.movimentos, p, n_placar);
 
-	printf("\nFaça uma jogada. Use WASD. E para sair.");
+	NewGame(state);
+	MostrarCursor(false);
+
+	int n_placar = ObterPlacar(p);
+
 	// Loop do Jogo
 	do {
+		Display(state->board, state->score, state->movimentos, p, n_placar);
+		printf("\nFaca uma jogada. Use WASD. E para sair.");
+
 		char cmd;
 		// Lê comando
 		cmd = _getch();
 		if (cmd == 'e') return;
 
 		// Processa comando
-		Jogada(&state, cmd);
-
-		// Display
-		Display(state.board, state.score, state.movimentos, p, n_placar);
-	} while (!Jogo_Acabou(state.board));
+		Jogada(state, cmd);
+	} while (!Jogo_Acabou(state->board));
 
 	return 0;
 }
