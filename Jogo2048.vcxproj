@@ -27,6 +27,7 @@
   <ItemGroup>
     <ClInclude Include="board.h" />
     <ClInclude Include="display.h" />
+    <ClInclude Include="jogo.h" />
     <ClInclude Include="placar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
