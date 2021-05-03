@@ -99,7 +99,7 @@ void Jogada(struct game_state* state, char cmd) {
 }
 
 void NewGame(struct game_state* state) {
-	Fill_Board(state->board, 1024);
+	Fill_Board(state->board, 0);
 	for (int i = 0; i < 5; i++) {
 		Spawnar_Numero(state->board);
 	}
