@@ -53,7 +53,7 @@ void Fill_Board(Board b, int value) {
 // Funções para Processar as Jogadas
 // ----------------------------------
 
-void Jogada_Esquerda(Board b, int *score) {
+void Jogada_Esquerda(Board b, int* score) {
 	for (int col = 1; col < LADOS; col++) {
 		for (int linha = 0; linha < LADOS; linha++) {
 			Deslizar_Casa(b, &b[linha][col], Esquerda, score);
@@ -61,7 +61,7 @@ void Jogada_Esquerda(Board b, int *score) {
 	}
 }
 
-void Jogada_Direita(Board b, int *score) {
+void Jogada_Direita(Board b, int* score) {
 	for (int col = 3; col >= 0; col--) {
 		for (int linha = 0; linha < LADOS; linha++) {
 			Deslizar_Casa(b, &b[linha][col], Direita, score);
@@ -69,7 +69,7 @@ void Jogada_Direita(Board b, int *score) {
 	}
 }
 
-void Jogada_Cima(Board b, int *score) {
+void Jogada_Cima(Board b, int* score) {
 	for (int linha = 1; linha < LADOS; linha++) {
 		for (int col = 0; col < LADOS; col++) {
 			Deslizar_Casa(b, &b[linha][col], Cima, score);
@@ -77,7 +77,7 @@ void Jogada_Cima(Board b, int *score) {
 	}
 }
 
-void Jogada_Baixo(Board b, int *score) {
+void Jogada_Baixo(Board b, int* score) {
 	for (int linha = 2; linha >= 0; linha--) {
 		for (int col = 0; col < LADOS; col++) {
 			Deslizar_Casa(b, &b[linha][col], Baixo, score);
@@ -89,7 +89,7 @@ void Jogada_Baixo(Board b, int *score) {
 // Funções do Movimento de Peças Individuais
 // ------------------------------------------
 
-void Deslizar_Casa(Board b, struct square* casa, enum Sentido s, int *score) {
+void Deslizar_Casa(Board b, struct square* casa, enum Sentido s, int* score) {
 	struct square* next = Vizinho(b, casa, s);
 
 	if (next == NULL)
@@ -140,9 +140,14 @@ int Casa_Movivel(Board b, struct square* casa) {
 	return 0;
 }
 
-int Jogo_Acabou(Board b) {
+int Jogo_Derrota(Board b) {
 	board_iter(if (Casa_Movivel(b, i_casa)) return 0);
 	return 1;
+}
+
+int Jogo_Vitoria(Board b) {
+	board_iter(if (i_casa->valor == 2048) return 1);
+	return 0;
 }
 
 // Outras funções

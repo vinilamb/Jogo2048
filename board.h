@@ -52,6 +52,6 @@ void Deslizar_Casa(Board b, struct square* casa, enum Sentido s, int* score);
 
 struct square* Vizinho(Board b, struct square* casa_ptr, enum Sentido s);
 
-int Jogo_Acabou(Board b);
+int Jogo_Derrota(Board b);
 
 #endif // H_BOARD

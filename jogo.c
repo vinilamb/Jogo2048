@@ -1,4 +1,5 @@
 #include "jogo.h"
+#include "utils.h"
 #include <conio.h>
 #include <Windows.h>
 
@@ -8,7 +9,6 @@ int main() {
 
 int MainMenu() {
 	struct game_state state = { 0 };
-
 	printf("Bem vindo ao 2048. Suas opcoes sao: \n");
 	printf("  1. (N)ovo jogo\n");
 	printf("  2. (C)arregar um jogo salvo\n");
@@ -18,7 +18,6 @@ int MainMenu() {
 	char cmd = getchar();
 	switch (cmd) {
 	case '1': case 'N': case 'n':
-
 		NewGame(&state);
 		JogoMain(&state);
 		break;
@@ -38,6 +37,7 @@ char JogoMain(struct game_state* state) {
 	int n_placar = ObterPlacar(p);
 
 	// Loop do Jogo
+	int vitoria = 0;
 	do {
 		// Atualiza a tela
 		Display(state->board, state->score, state->movimentos, p, n_placar);
@@ -46,10 +46,40 @@ char JogoMain(struct game_state* state) {
 		// Lê comando
 		cmd = _getch();
 		if (cmd == 'e') return;
-
 		// Processa comando
 		Jogada(state, cmd);
-	} while (!Jogo_Acabou(state->board));
+
+		if (Jogo_Vitoria(state->board))
+			vitoria = 1;
+
+	} while (!Jogo_Derrota(state->board) && !vitoria);
+	Display(state->board, state->score, state->movimentos, p, n_placar); // atualiza última vez
+	
+	// O jogo acabou com vitoria ou derrota
+	
+
+	if (vitoria) {
+		printf("Voce venceu.\n");
+	}
+	else {
+		printf("Voce nao obteve vitoria\n");
+	}
+
+	int insertAt = Placar_NovoRecorde(p, state->score);
+	if (insertAt != -1 ) {
+		struct registro r;
+		r.score = state->score;
+
+		limpar_buffer();
+
+		printf("Novo recorde!!!\n");
+		printf("Digite o seu nome: ");
+		fgets(r.nome, MAX_NOME, stdin);
+		r.nome[strcspn(r.nome, "\n")] = 0;
+
+		Placar_InsereRegistro(p, r, insertAt);
+		printf("Recorde salvo.");
+	}
 
 	return 0;
 }
@@ -68,7 +98,7 @@ void Jogada(struct game_state* state, char cmd) {
 }
 
 void NewGame(struct game_state* state) {
-	Fill_Board(state->board, 0);
+	Fill_Board(state->board, 1024);
 	for (int i = 0; i < 5; i++) {
 		Spawnar_Numero(state->board);
 	}

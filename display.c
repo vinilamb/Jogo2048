@@ -210,6 +210,6 @@ void Display(Board b, int score, int movimentos, Placar p, int n_placar) {
     Display_Movimentos(57, 1, movimentos);
     Display_Placar(47, 4, p, n_placar);
     Display_Instrucoes(47, 20);
-
+    
     SetConsoleCursorPosition(Handle(), info.dwCursorPosition);
 }
