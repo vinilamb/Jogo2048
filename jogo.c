@@ -7,21 +7,11 @@
 #include "display.h"
 #include "placar.h"
 
-#include "utils.h"
-
-int main() {
-	int arr[10] = { 32, 24, 15, 7, 3, 0, 0 };
-	int n = 5;
-	insertSorted(arr, n, 25);
-
-	for (int* p = arr; p < arr + n; p++)
-		printf("%d ", *p);
-}
-
-
-int main2(void) {
+int main(void) {
 	int score = 0, movimentos = 0;
 	Board b;
+	Placar p;
+	int n_placar = ObterPlacar(p);
 
 	MostrarCursor(false);
 
@@ -29,7 +19,7 @@ int main2(void) {
 	Spawnar_Numero(b);
 	Spawnar_Numero(b);
 
-	Display(b, score, movimentos);
+	Display(b, score, movimentos, p, n_placar);
 
 	// Loop do Jogo
 	while (1) {
@@ -58,7 +48,7 @@ int main2(void) {
 		Spawnar_Numero(b);
 
 		// Display
-		Display(b, score, movimentos);
+		Display(b, score, movimentos, p, n_placar);
 	}
 
 SAIR:;

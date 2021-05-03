@@ -131,6 +131,24 @@ void Display_Movimentos(int x, int y, int movimentos) {
     SetConsoleTextAttribute(Handle(), info.wAttributes);
 }
 
+void Display_Placar(int x, int y, Placar p, int n)
+{
+    CONSOLE_SCREEN_BUFFER_INFO info;
+    GetConsoleScreenBufferInfo(Handle(), &info);
+
+    SetConsoleTextAttribute(Handle(), FG_BLACK | BG_SILVER);
+    SetCoord(x, y++);
+    printf("         RANKING        ");
+
+    SetConsoleTextAttribute(Handle(), FG_YELLOW | BG_GRAY);
+    for (int i = 0; i < n; i++) {
+        SetCoord(x, y++);
+        printf("%7d %-15s ", p[i].score, p[i].nome);
+    }
+
+    SetConsoleTextAttribute(Handle(), info.wAttributes);
+}
+
 void MostrarCursor(bool mostrar)
 {
     CONSOLE_CURSOR_INFO info;
@@ -157,7 +175,7 @@ BG_COLORS ScoreToCor(int score) {
     }
 }
 
-void Display(Board b, int score, int movimentos) {
+void Display(Board b, int score, int movimentos, Placar p, int n_placar) {
     CONSOLE_SCREEN_BUFFER_INFO info;
     Display_Board(b);
 
@@ -165,7 +183,7 @@ void Display(Board b, int score, int movimentos) {
 
     Display_Score(47, 1, score);
     Display_Movimentos(57, 1, movimentos);
-    //Display_Placar(p);
+    Display_Placar(47, 4, p, n_placar);
 
     SetConsoleCursorPosition(Handle(), info.dwCursorPosition);
 }
