@@ -111,7 +111,7 @@ void Display_Score(int x, int y, int score)
 
     SetConsoleTextAttribute(Handle(), FG_YELLOW | BG_GRAY);
     SetCoord(x, y++);
-    printf("    %3d  ", score);  
+    printf(" %6d  ", score);  
 
     SetConsoleTextAttribute(Handle(), info.wAttributes);
 }

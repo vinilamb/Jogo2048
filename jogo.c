@@ -30,7 +30,7 @@ int MainMenu() {
 	}
 }
 
-char JogoMain(struct game_state* state) {
+void JogoMain(struct game_state* state) {
 	Placar p;
 
 	MostrarCursor(false);
@@ -114,7 +114,7 @@ void SalvarJogo(struct game_state* state)
 	fwrite(state, sizeof(struct game_state), 1, f);
 }
 
-bool CarregarJogoSalvo(struct game_state* state)
+void CarregarJogoSalvo(struct game_state* state)
 {
 	FILE* f = fopen(ARQUIVO_JOGO, "r");
 	if (f == NULL) return;

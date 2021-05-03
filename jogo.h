@@ -17,11 +17,13 @@ struct game_state {
 	int movimentos;
 };
 
-char JogoMain(struct game_state* state);
+int MainMenu();
+
+void JogoMain(struct game_state* state);
 
 void Jogada(struct game_state* state, char cmd);
 
 void NewGame(struct game_state* state);
 
 void SalvarJogo(struct game_state* state);
-bool CarregarJogoSalvo(struct game_state* state);
+void CarregarJogoSalvo(struct game_state* state);
