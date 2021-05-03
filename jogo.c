@@ -2,47 +2,45 @@
 #include <conio.h>
 #include <Windows.h>
 
-int JogoMain(struct game_state* state);
-
 int main() {
 	MainMenu();
 }
 
 int MainMenu() {
+	struct game_state state = { 0 };
+
 	printf("Bem vindo ao 2048. Suas opcoes sao: \n");
 	printf("  1. (N)ovo jogo\n");
 	printf("  2. (C)arregar um jogo salvo\n");
 	printf("  3. (S)air\n");
 
 	printf("Digite sua escolha: ");
-	char cmd;
-	rd: cmd = getchar();
+	char cmd = getchar();
 	switch (cmd) {
 	case '1': case 'N': case 'n':
-		struct game_state state;
+
 		NewGame(&state);
 		JogoMain(&state);
 		break;
 	case '2': case 'C': case 'c':
-		// Novo jogo aqui
+		CarregarJogoSalvo(&state);
+		JogoMain(&state);
 		break;
 	case '3': case 'S': case 's':
 		break;
 	}
 }
 
-int JogoMain(struct game_state* state) {
+char JogoMain(struct game_state* state) {
 	Placar p;
 
-	NewGame(state);
 	MostrarCursor(false);
-
 	int n_placar = ObterPlacar(p);
 
 	// Loop do Jogo
 	do {
+		// Atualiza a tela
 		Display(state->board, state->score, state->movimentos, p, n_placar);
-		printf("\nFaca uma jogada. Use WASD. E para sair.");
 
 		char cmd;
 		// Lê comando
@@ -76,5 +74,20 @@ void NewGame(struct game_state* state) {
 	}
 	state->movimentos = 0;
 	state->score = 0;
+}
+
+void SalvarJogo(struct game_state* state)
+{
+	FILE* f = fopen(ARQUIVO_JOGO, "w");
+	if (f == NULL) return;
+	fwrite(state, sizeof(struct game_state), 1, f);
+}
+
+bool CarregarJogoSalvo(struct game_state* state)
+{
+	FILE* f = fopen(ARQUIVO_JOGO, "r");
+	if (f == NULL) return;
+	fread(state, sizeof(struct game_state), 1, f);
+	fclose(f);
 }
 

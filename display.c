@@ -166,6 +166,14 @@ void Display_Menu(int x, int y, int opcaoSelecionada)
     }
 }
 
+void Display_Instrucoes(int x, int y) {
+    SetCoord(x, y++);
+    printf("E - Sair");         SetCoord(x, y++);
+    printf("N - Novo Jogo");    SetCoord(x, y++);
+    printf("P - Salvar Jogo");    SetCoord(x, y++);
+    printf("WASD - Jogar");     
+}
+
 void MostrarCursor(bool mostrar)
 {
     CONSOLE_CURSOR_INFO info;
@@ -201,6 +209,7 @@ void Display(Board b, int score, int movimentos, Placar p, int n_placar) {
     Display_Score(47, 1, score);
     Display_Movimentos(57, 1, movimentos);
     Display_Placar(47, 4, p, n_placar);
+    Display_Instrucoes(47, 20);
 
     SetConsoleCursorPosition(Handle(), info.dwCursorPosition);
 }
