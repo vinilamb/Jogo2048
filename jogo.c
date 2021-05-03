@@ -7,7 +7,7 @@ int main() {
 	MainMenu();
 }
 
-int MainMenu() {
+void MainMenu() {
 	struct game_state state = { 0 };
 	printf("Bem vindo ao 2048. Suas opcoes sao: \n");
 	printf("  1. (N)ovo jogo\n");
@@ -82,7 +82,7 @@ void JogoMain(struct game_state* state) {
 		SalvarPlacar(p, min(MAX_PLACAR, n_placar + 1));
 	}
 
-	return 0;
+	return;
 }
 
 void Jogada(struct game_state* state, char cmd) {

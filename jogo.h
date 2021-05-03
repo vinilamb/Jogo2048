@@ -17,7 +17,7 @@ struct game_state {
 	int movimentos;
 };
 
-int MainMenu();
+void MainMenu();
 
 void JogoMain(struct game_state* state);
 
