@@ -79,6 +79,7 @@ char JogoMain(struct game_state* state) {
 
 		Placar_InsereRegistro(p, r, insertAt);
 		printf("Recorde salvo.");
+		SalvarPlacar(p, min(MAX_PLACAR, n_placar + 1));
 	}
 
 	return 0;
